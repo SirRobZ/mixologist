@@ -5,6 +5,19 @@ var state = {
 	results: [],
 	selectedliquors: [],
 	selectedmixers: [],
+	settings: {
+		url: 'http://www.recipepuppy.com/api/',
+		method: 'get',
+		dataType: 'jsonp',
+		jsonpCallback: 'logResults',
+		data: {
+			i: 'vodka,orange juice'
+		}
+	}
+}
+
+function logResults(data) {
+	state.results = data.results;
 }
 
 function main() {
@@ -25,9 +38,9 @@ function main() {
 
 	function renderResultsList() {
 		var resultsListHTML = state.results.map(function(result){
-			return('<li class="results">'+ result +'</li>')
+			return('<li class="results">'+ result.title +'</li>')
 		})
-		$('.results ul').html(resultListHTML);
+		$('.results ul').html(resultsListHTML);
 	}
 
 	function generateResults() {
@@ -36,6 +49,10 @@ function main() {
 			make API call to recipe puppy
 			pass response to render results list.
 		*/
+		$.ajax(state.settings).done(function() {
+  			renderResultsList();
+		});
+
 	}
 
 	function bindLiquorClick() {
@@ -91,6 +108,7 @@ function main() {
 		*/
 		$('.mixers .next').on('click', function(event){
 			$('.mixers').addClass('hidden');
+			generateResults();
 			$('.results').removeClass('hidden');
 		})
 	}
@@ -117,9 +135,8 @@ function main() {
 		$('.results .reset').on('click', function(event){
 			state.selectedliquors = [];
 			state.selectedmixers = [];
-			$('liquors li').removeClass('highlight');
-			$('mixers li').removeClass('highlight');
 			$('.results').addClass('hidden');
+			renderLiquorList();
 			$('.liquors').removeClass('hidden');
 		})
 	}
@@ -133,6 +150,7 @@ function main() {
 	bindMixerListNextButton();
 	bindResultsBackButton();
 	bindResultsResetButton();
+
 }
 
 
