@@ -1,0 +1,26 @@
+Liquors:
+Gin
+Vodka
+Bourbon
+Scotch
+Tequila
+Rum
+Brandy/Cognac
+Beer
+Red Wine
+White Wine
+
+Mixers:
+club soda
+tonic
+cola
+lemon/lime cola
+ginger ale
+orange juice
+cranberry juice
+tomato juice
+pineapple juice
+angostura bitters
+
+<input type="checkbox" name="liquor" value="' 
+'+ liquor + '">'
