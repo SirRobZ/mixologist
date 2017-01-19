@@ -1,7 +1,7 @@
 
 var state = {
 	liquors: ['Gin','Vodka','Bourbon','Scotch','Tequila','Rum','Brandy/Cognac','White Wine','Red Wine','Beer'],
-	mixers: ['Club Soda','Tonic','Cola','Lemon/Lime Soda','Ginger Ale','Orange Juice','Cranberry Juice','Tomato Juice','Pineapple Juice','Agnostura Bitters'],
+	mixers: ['Club Soda','Tonic','Cola','Sprite','Ginger Ale','Orange Juice','Cranberry Juice','Tomato Juice','Pineapple Juice','Agnostura Bitters'],
 	results: [],
 	selectedliquors: [],
 	selectedmixers: [],
@@ -11,7 +11,7 @@ var state = {
 		dataType: 'jsonp',
 		jsonpCallback: 'logResults',
 		data: {
-			i: 'vodka,orange juice'
+			i: ''
 		}
 	}
 }
@@ -38,7 +38,8 @@ function main() {
 
 	function renderResultsList() {
 		var resultsListHTML = state.results.map(function(result){
-			return('<li class="results">'+ result.title +'</li>')
+			return('<li class="results">'+ '<a href="' + result.href + '">' + result.title + '</a>' +
+			 '<img src="' + (result.thumbnail ? result.thumbnail : "http://placehold.it/100x100") + '">'+'</li>')
 		})
 		$('.results ul').html(resultsListHTML);
 	}
@@ -49,6 +50,7 @@ function main() {
 			make API call to recipe puppy
 			pass response to render results list.
 		*/
+		state.settings.data.i = state.selectedliquors.concat(state.selectedmixers).toString().toLowerCase();
 		$.ajax(state.settings).done(function() {
   			renderResultsList();
 		});
@@ -61,7 +63,7 @@ function main() {
 			push name or index into state.selectedliquors 
 			toggle class and remove from state.selected liquors if clicked again.
 		*/
-		$('.liquors li').on('click', function(event){
+		$('.liquors ul').on('click', 'li',  function(event){
 			$(this).toggleClass('highlight');
 			if ($(this).hasClass('highlight')) {
 				state.selectedliquors.push($(this).text());
