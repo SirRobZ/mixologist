@@ -6,7 +6,7 @@ var state = {
 	selectedliquors: [],
 	selectedmixers: [],
 	settings: {
-		url: '//www.recipepuppy.com/api/',
+		url: 'http://www.recipepuppy.com/api/',
 		method: 'get',
 		dataType: 'jsonp',
 		jsonpCallback: 'logResults',
@@ -39,7 +39,7 @@ function main() {
 	function renderResultsList() {
 		var resultsListHTML = state.results.map(function(result){
 			return('<li class="results">'+ '<a href="' + result.href + '">' + result.title + '</a>' +
-			 '<img src="' + (result.thumbnail ? result.thumbnail : "//placehold.it/100x100") + '">'+'</li>')
+			 '<img src="' + (result.thumbnail ? result.thumbnail : "http://placehold.it/100x100") + '">'+'</li>')
 		})
 		$('.results ul').html(resultsListHTML);
 	}
