@@ -17,6 +17,7 @@ var state = {
 }
 
 function logResults(data) {
+	console.log('logResults', data);
 	state.results = data.results;
 }
 
@@ -38,8 +39,9 @@ function main() {
 
 	function renderResultsList() {
 		var resultsListHTML = state.results.map(function(result){
-			return('<li class="results">'+ '<a href="' + result.href + '">' + result.title + '</a>' +
-			 '<img src="' + (result.thumbnail ? result.thumbnail : "http://placehold.it/100x100") + '">'+'</li>')
+			return('<li class="result" style="background-image: url('+(result.thumbnail ? result.thumbnail : "http://placehold.it/100x100")+
+				')">'+ '<a href="' + result.href + '"> </a> <span class="title">' + result.title + '</span>' +
+			 '</li>')
 		})
 		$('.results ul').html(resultsListHTML);
 	}
@@ -50,7 +52,7 @@ function main() {
 			make API call to recipe puppy
 			pass response to render results list.
 		*/
-		state.settings.data.i = state.selectedliquors.concat(state.selectedmixers).toString().toLowerCase();
+		state.settings.data.i = state.selectedliquors.concat(state.selectedmixers).toString().toLowerCase().replace(/\//g, ' ');
 		$.ajax(state.settings).done(function() {
   			renderResultsList();
 		});
